@@ -10,8 +10,8 @@
 ###############################################################################
 
 soci_backend(SQLite3
-  DEPENDS SQLite3
-  HEADERS soci-sqlite3.h common.h
+#  DEPENDS SQLite3
+  HEADERS soci-sqlite3.h common.h sqlite3.h sqlite3ext.h
   DESCRIPTION "SOCI backend for SQLite 3 database engine"
   AUTHORS "Maciej Sobczak, Stephen Hutton, David Courtney"
   MAINTAINERS "Maciej Sobczak, Mateusz Loskot")
