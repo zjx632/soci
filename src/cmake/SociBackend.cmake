@@ -103,7 +103,7 @@ macro(soci_backend NAME)
       if (NOT THIS_BACKEND_HEADERS)
 		file(GLOB THIS_BACKEND_HEADERS *.h)
       endif()
-      file(GLOB THIS_BACKEND_SOURCES *.cpp)
+      file(GLOB THIS_BACKEND_SOURCES *.cpp *.c)
       set(THIS_BACKEND_HEADERS_VAR SOCI_${NAMEU}_HEADERS)
       set(${THIS_BACKEND_HEADERS_VAR} ${THIS_BACKEND_HEADERS}) 
 

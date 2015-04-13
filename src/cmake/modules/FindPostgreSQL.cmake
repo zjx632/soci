@@ -48,6 +48,7 @@ find_path(POSTGRESQL_INCLUDE_DIR libpq-fe.h
   /usr/include/postgresql
   /usr/include/postgresql/server
   /usr/include/postgresql/*/server
+  ${POSTGRESQL_HOME}/include
   $ENV{ProgramFiles}/PostgreSQL/*/include
   $ENV{SystemDrive}/PostgreSQL/*/include)
 
@@ -60,6 +61,7 @@ find_library(POSTGRESQL_LIBRARIES NAMES pq libpq
   /usr/lib64
   /usr/local/lib64
   /usr/lib64/postgresql
+  ${POSTGRESQL_HOME}/lib
   $ENV{ProgramFiles}/PostgreSQL/*/lib
   $ENV{SystemDrive}/PostgreSQL/*/lib
   $ENV{ProgramFiles}/PostgreSQL/*/lib/ms

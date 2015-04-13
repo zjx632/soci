@@ -125,6 +125,8 @@ public:
     {
         currentPos_ = 0;
     }
+	
+	bool contain_column(std::string const& name) const;
 
 private:
     // copy not supported

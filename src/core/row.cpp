@@ -111,3 +111,9 @@ std::size_t row::find_column(std::string const &name) const
 
     return it->second;
 }
+
+bool row::contain_column(std::string const& name) const
+{
+	std::map<std::string, std::size_t>::const_iterator it = index_.find(name);
+	return it != index_.end();
+}

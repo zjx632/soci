@@ -19,6 +19,7 @@ include(CheckCXXSourceCompiles)
 if(WIN32)
    find_path(MYSQL_INCLUDE_DIR mysql.h
       PATHS
+	  ${MYSQL_HOME}/include
       $ENV{MYSQL_INCLUDE_DIR}
       $ENV{MYSQL_DIR}/include
       $ENV{ProgramFiles}/MySQL/*/include
@@ -56,6 +57,7 @@ if(WIN32)
 #   find_library(MYSQL_LIBRARIES NAMES mysqlclient
    find_library(MYSQL_LIBRARIES NAMES libmysql
       PATHS
+	  ${MYSQL_HOME}/lib
       $ENV{MYSQL_DIR}/lib/${binary_dist}
       $ENV{MYSQL_DIR}/libmysql/${build_dist}
       $ENV{MYSQL_DIR}/client/${build_dist}
@@ -78,6 +80,7 @@ endif(WIN32)
 
 if(WIN32)
    set(MYSQL_LIB_PATHS
+	  ${MYSQL_HOME}/lib
       $ENV{MYSQL_DIR}/lib/opt
       $ENV{MYSQL_DIR}/client/release
       $ENV{ProgramFiles}/MySQL/*/lib/opt
