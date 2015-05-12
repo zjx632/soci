@@ -280,8 +280,8 @@ private:
         throw soci_error("Value named " + name + " not found.");
     }
 
-	template <typename T, typename std::enable_if<std::is_arithmetic<T>::value >::type* = 0>
-	T get_from_uses(std::size_t pos) const
+	template <typename T>
+	std::enable_if_t<std::is_arithmetic<T>::value, T> get_from_uses(std::size_t pos) const
 	{
 		details::standard_use_type* u = uses_[pos];
 		typedef typename type_conversion<double>::base_type double_type;
@@ -336,8 +336,8 @@ private:
 		throw soci_error(msg.str());
 	}
 
-	template <typename T, typename std::enable_if<!std::is_arithmetic<T>::value >::type* = 0>
-    T get_from_uses(std::size_t pos) const
+	template <typename T>
+	std::enable_if_t<!std::is_arithmetic<T>::value, T> get_from_uses(std::size_t pos) const
     {
         details::standard_use_type* u = uses_[pos];
 

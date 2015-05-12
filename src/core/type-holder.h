@@ -29,8 +29,8 @@ public:
     holder() {}
     virtual ~holder() {}
 
-	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value >::type* = 0>
-	T get()
+	template<typename T>
+	std::enable_if_t<std::is_arithmetic<T>::value, T> get()
 	{
 		type_holder<double>* pdouble = dynamic_cast<type_holder<double> *>(this);
 		if (pdouble)
@@ -51,8 +51,8 @@ public:
 		throw std::bad_cast();
 	}
 
-	template<typename T, typename std::enable_if<!std::is_arithmetic<T>::value >::type* = 0>
-	T get()
+	template<typename T>
+	std::enable_if_t<!std::is_arithmetic<T>::value, T>  get()
 	{
 		type_holder<T>* p = dynamic_cast<type_holder<T> *>(this);
 		if (p)
