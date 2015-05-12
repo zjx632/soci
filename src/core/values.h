@@ -233,6 +233,8 @@ public:
     column_properties const& get_properties(std::size_t pos) const;
     column_properties const& get_properties(std::string const &name) const;
 
+	bool contain_column(std::string const& name) const;
+
 private:
 
     //TODO To make values generally usable outside of type_conversion's,
@@ -278,7 +280,63 @@ private:
         throw soci_error("Value named " + name + " not found.");
     }
 
-    template <typename T>
+	template <typename T, typename std::enable_if<std::is_arithmetic<T>::value >::type* = 0>
+	T get_from_uses(std::size_t pos) const
+	{
+		details::standard_use_type* u = uses_[pos];
+		typedef typename type_conversion<double>::base_type double_type;
+		typedef typename type_conversion<int>::base_type int_type;
+		typedef typename type_conversion<long long >::base_type longlong_type;
+		typedef typename type_conversion<unsigned long long>::base_type ulonglong_type;
+
+
+		if (dynamic_cast<details::use_type<double_type> *>(u)) {
+			double_type const & baseValue = *static_cast<double_type*>(u->get_data());
+
+			T val;
+			indicator ind = *indicators_[pos];
+			type_conversion<T>::from_base(baseValue, ind, val);
+			return val;
+		}
+
+		if (dynamic_cast<details::use_type<int_type> *>(u)) {
+			int_type const & baseValue = *static_cast<int_type*>(u->get_data());
+
+			T val;
+			indicator ind = *indicators_[pos];
+			type_conversion<T>::from_base(baseValue, ind, val);
+			return val;
+		}
+
+		if (dynamic_cast<details::use_type<longlong_type> *>(u)) {
+			longlong_type const & baseValue = *static_cast<longlong_type*>(u->get_data());
+
+			T val;
+			indicator ind = *indicators_[pos];
+			type_conversion<T>::from_base(baseValue, ind, val);
+			return val;
+		}
+
+		if (dynamic_cast<details::use_type<ulonglong_type> *>(u)) {
+			ulonglong_type const & baseValue = *static_cast<ulonglong_type*>(u->get_data());
+
+			T val;
+			indicator ind = *indicators_[pos];
+			type_conversion<T>::from_base(baseValue, ind, val);
+			return val;
+		}
+
+
+
+		std::ostringstream msg;
+		msg << "Value at position "
+			<< static_cast<unsigned long>(pos)
+			<< " was set using a different type"
+			" than the one passed to get()";
+		throw soci_error(msg.str());
+	}
+
+	template <typename T, typename std::enable_if<!std::is_arithmetic<T>::value >::type* = 0>
     T get_from_uses(std::size_t pos) const
     {
         details::standard_use_type* u = uses_[pos];

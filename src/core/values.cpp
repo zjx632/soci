@@ -67,3 +67,17 @@ column_properties const& values::get_properties(std::string const& name) const
 
     throw soci_error("Rowset is empty");
 }
+
+bool values::contain_column(std::string const& name) const {
+	if (row_)
+	{
+		return row_->contain_column(name);
+	}
+
+	for (auto&& u : uses_) {
+		if (u->get_name() == name)
+			return true;
+	}
+
+	return false;
+}

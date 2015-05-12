@@ -9,6 +9,8 @@
 #define SOCI_TYPE_HOLDER_H_INCLUDED
 // std
 #include <typeinfo>
+#include <type_traits>
+
 
 namespace soci
 {
@@ -27,19 +29,39 @@ public:
     holder() {}
     virtual ~holder() {}
 
-    template<typename T>
-    T get()
-    {
-        type_holder<T>* p = dynamic_cast<type_holder<T> *>(this);
-        if (p)
-        {
-            return p->template value<T>();
-        }
-        else
-        {
-            throw std::bad_cast();
-        }
-    }
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value >::type* = 0>
+	T get()
+	{
+		type_holder<double>* pdouble = dynamic_cast<type_holder<double> *>(this);
+		if (pdouble)
+			return pdouble->template value<T>();
+
+		type_holder<int>* pint = dynamic_cast<type_holder<int> *>(this);
+		if (pint)
+			return pint->template value<T>();
+
+		type_holder<long long>* plonglong = dynamic_cast<type_holder<long long> *>(this);
+		if (plonglong)
+			return plonglong->template value<T>();
+
+		type_holder<unsigned long long>* pulonglong = dynamic_cast<type_holder<unsigned long long> *>(this);
+		if (pulonglong)
+			return pulonglong->template value<T>();
+
+		throw std::bad_cast();
+	}
+
+	template<typename T, typename std::enable_if<!std::is_arithmetic<T>::value >::type* = 0>
+	T get()
+	{
+		type_holder<T>* p = dynamic_cast<type_holder<T> *>(this);
+		if (p)
+		{
+			return p->template value<T>();
+		}
+
+		throw std::bad_cast();
+	}
 
 private:
 
